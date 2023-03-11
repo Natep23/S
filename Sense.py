@@ -1,19 +1,16 @@
+import RPi.GPIO as GPIO
 import time
 
-import board  
-from adafruit_seesaw.seesaw import Seesaw
+GPIO.setmode(GPIO.BCM)
 
-i2c_bus = board.I2C()  # uses board.SCL and board.SDA
-# i2c_bus = board.STEMMA_I2C()  # For using the built-in STEMMA QT connector on a microcontroller
-
-ss = Seesaw(i2c_bus, addr=0x36)
+GPIO.setup(4, GPIO.IN)
 
 while True:
-    # read moisture level through capacitive touch pad
-    touch = ss.moisture_read()
+    if(GPIO.input(4) == True):
+        print("Water Detected")
+    else:
+        print("No Water Detected")
 
-    # read temperature from the temperature sensor
-    temp = ss.get_temp()
+    time.sleep(2)
 
-    print("temp: " + str(temp) + "  moisture: " + str(touch))
-    time.sleep(1)
+
