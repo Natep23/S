@@ -13,12 +13,11 @@ GPIO.setup(21, GPIO.OUT)
 try:
     while True:
         GPIO.output(21, GPIO.LOW)
-        print('Relay 1 ON')
+        print("Pump On")
         time.sleep(5)
+    
+        print('Pump Off')
         GPIO.output(21, GPIO.HIGH)
-        print('Relay 1 OFF')
         time.sleep(5)
 finally:
-    # GPIO.output(21, GPIO.HIGH)
-    # print('Rela')
     GPIO.cleanup()
