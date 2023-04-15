@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, request
 import socket
-# import Pump.py
+import Pump
 # import Sense.py
 
 # Grabs the Local IP address to allow the Rasberry Pi Run the Website on Multiple Devices on the same wifi network
@@ -18,6 +18,18 @@ app = Flask(__name__)
 def index():
     return render_template("Homepage.html")
 
+@app.route('/refill')
+def filling():
+    On = True
+    Pump.refill(On)
+    return render_template("Homepage.html")
+
+@app.route('/stop')
+def suspend():
+    Off = False
+    Pump.refill(Off)
+    return render_template("Homepage.html")
 
 if __name__ == "__main__":
-    app.run(host=getRaspIp(), port=5000, debug=True) 
+    app.run(host=getRaspIp(), port=5000, debug=True)
+    
