@@ -10,8 +10,6 @@ def senseStart(run):
         Sensor1 = 4
         Sensor2 = 27
 
-        
-
         GPIO.setup(Sensor1, GPIO.IN)
         GPIO.setup(Sensor2, GPIO.IN)
 
