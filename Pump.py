@@ -15,11 +15,11 @@ def refill(start):
         while start:
             GPIO.output(21, GPIO.LOW)
             print("Pump On")
-            time.sleep(2)
+            time.sleep(4)
         
             print('Pump Off')
             GPIO.output(21, GPIO.HIGH)
-            time.sleep(5)
+            time.sleep(2)
             
     finally:
         GPIO.cleanup()

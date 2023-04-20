@@ -29,6 +29,10 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
+    Off = False
+    run = False
+    Pump.refill(Off)
+    Sense.senseStart(run)
     return render_template("Homepage.html")
 
 @app.route('/refill')
