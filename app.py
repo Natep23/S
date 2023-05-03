@@ -4,6 +4,8 @@ import socket
 import time
 import Pump
 import Sense
+import light
+
 
 
 # Grabs the Local IP address to allow the 
@@ -20,8 +22,8 @@ def getRaspIp():
 #generates QR code for quick loading
 def generateQR():
     time.sleep(3)
-    ip = getRaspIp()
-    url = pyqrcode.create('http://' + ip + ':5000/')
+    ip_add = getRaspIp()
+    url = pyqrcode.create('http://' + ip_add + ':5000/')
     url.svg('QRCode.svg', scale=1)
     print(url.terminal(quiet_zone=1))
 
@@ -29,32 +31,76 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    Off = False
-    run = False
-    Pump.refill(Off)
-    Sense.senseStart(run)
-    return render_template("Homepage.html")
+    ip = getRaspIp()
+    localTempTime = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=4"
+    localPhTime = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=2"
+    localHumidityTime = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=6"
+    localTempGauge = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=9"
+    localPhGauge = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=7"
+    localHumidityGauge = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=8"
+
+    return render_template("Homepage.html", addr1=localTempTime, addr2=localPhTime, addr3=localHumidityTime,
+    addr4=localTempGauge, addr5=localPhGauge, addr6=localHumidityGauge)
 
 @app.route('/refill')
 def filling():
-    On = True
-    Pump.refill(On)
-    return render_template("Homepage.html")
+    ip = getRaspIp()
+    localTempTime = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=4"
+    localPhTime = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=2"
+    localHumidityTime = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=6"
+    localTempGauge = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=9"
+    localPhGauge = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=7"
+    localHumidityGauge = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=8"
+    
+    Pump.refill()
+    return render_template("Homepage.html", addr1=localTempTime, addr2=localPhTime, addr3=localHumidityTime,
+    addr4=localTempGauge, addr5=localPhGauge, addr6=localHumidityGauge)
 
 @app.route('/sense')
 def isWater():
-    run = True
-    Sense.senseStart(run)
-    return render_template("Homepage.html")
+    ip = getRaspIp()
+    localTempTime = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=4"
+    localPhTime = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=2"
+    localHumidityTime = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=6"
+    localTempGauge = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=9"
+    localPhGauge = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=7"
+    localHumidityGauge = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=8"
 
+    Sense.senseStart(run= True, isFull= False)
+    return render_template("Homepage.html", addr1=localTempTime, addr2=localPhTime, addr3=localHumidityTime,
+    addr4=localTempGauge, addr5=localPhGauge, addr6=localHumidityGauge)
+
+@app.route('/toggle_light')
+def letTherebeLight():
+    ip = getRaspIp()
+    localTempTime = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=4"
+    localPhTime = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=2"
+    localHumidityTime = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=6"
+    localTempGauge = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=9"
+    localPhGauge = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=7"
+    localHumidityGauge = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=8"
+
+    light.light(forceEnd=False)
+    return render_template("Homepage.html", addr1=localTempTime, addr2=localPhTime, addr3=localHumidityTime,
+    addr4=localTempGauge, addr5=localPhGauge, addr6=localHumidityGauge)
 
 @app.route('/stop')
 def suspend():
-    Off = False
-    run = False
-    Pump.refill(Off)
-    Sense.senseStart(run)
-    return render_template("Homepage.html")
+    ip = getRaspIp()
+    localTempTime = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=4"
+    localPhTime = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=2"
+    localHumidityTime = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=6"
+    localTempGauge = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=9"
+    localPhGauge = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=7"
+    localHumidityGauge = "http://" + ip + ":3000/d-solo/LApJims4z/sis-sensor-readings?orgId=1&panelId=8"
+    
+    endlight = True
+    light.light(endlight)
+    Pump.turnoff()
+    Sense.senseStart(run= False, isFull=True)
+    return render_template("Homepage.html", addr1=localTempTime, addr2=localPhTime, addr3=localHumidityTime,
+    addr4=localTempGauge, addr5=localPhGauge, addr6=localHumidityGauge)
+
 
 generateQR()
 

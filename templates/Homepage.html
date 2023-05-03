@@ -3,12 +3,35 @@
 {% block content %}
 <div class="title">
     <p>Welcome to Your Smart Irrigation System Homepage!</p>
+</div class="phView">
+    <iframe id="values" src="{{ addr2 }}" 
+    width="70%" height="200" 
+    frameborder="0"></iframe>
+    <iframe id="values" src="{{ addr5 }}" 
+    width="30%" height="200" 
+    frameborder="0"></iframe>
+<div>
+    <iframe id="values" src= "{{ addr1 }}" 
+    width="70%" height="200" 
+    frameborder="0"></iframe>
+    <iframe id="values" src= "{{ addr4 }}" 
+    width="30%" height="200" 
+    frameborder="0"></iframe>
 </div>
-
-<p>Charts are displayed here</p>
+<div>
+    <iframe id="values" src="{{ addr3 }}" 
+    width="70%" height="200" 
+    frameborder="0"></iframe>
+    <iframe id="values" src="{{ addr6 }}" 
+    width="30%" height="200" 
+    frameborder="0"></iframe>
+</div>
+<div class="button_group">
 <a href="refill"><button class="button-19" role="button">Start Pump</button></a>
 <a href="sense"><button class="button-19" role="button">Test Sensors</button></a>
+<a href="toggle_light"><button class="button-19" role="button">Light ON/OFF</button></a>
 <a href="stop"><button class="button-19" role="button">Stop System</button></a>
 
+</div>
 
 {% endblock %}

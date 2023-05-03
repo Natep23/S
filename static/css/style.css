@@ -4,11 +4,23 @@ h1{
     font-weight: 500;
 }
 
-
 div{
     justify-content: center;
     align-self: center;
-    padding-top: 1;
+    padding-top: 15;
+}
+
+
+.phView { 
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+
+
+.button_group {
+  padding: 5px;
+  padding-top: 20px;
 }
 
 .button-19 {
@@ -39,6 +51,7 @@ div{
   white-space: nowrap;
   padding: 7
 }
+
 
 .button-19:after {
   background-clip: padding-box;
@@ -71,6 +84,7 @@ div{
 
 .title{
     font-size: medium;
+    padding-top: 0;
 }
 
 .header-Bar{ 
